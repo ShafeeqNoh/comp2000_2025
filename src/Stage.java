@@ -2,22 +2,22 @@ import java.awt.Graphics;
 import java.awt.Point;
 
 public class Stage {
-  Grid grid;
-  Actor cat;
-  Actor dog;
-  Actor bird;
+  private final Grid grid;
+  private final Registry<Actor> actors = new Registry<>();
 
   public Stage() {
-    grid = new Grid();
-    cat = new Cat(grid.cellAtColRow(0, 0));
-    dog = new Dog(grid.cellAtColRow(0, 15));
-    bird = new Bird(grid.cellAtColRow(12, 9));
+    this.grid = new Grid();
+
+    actors.add(new Cat(grid.cellAtColRow(0, 0)));
+    actors.add(new Dog(grid.cellAtColRow(0, 15)));
+    actors.add(new Bird(grid.cellAtColRow(12, 9)));
   }
 
   public void paint(Graphics g, Point mouseLoc) {
     grid.paint(g, mouseLoc);
-    cat.paint(g);
-    dog.paint(g);
-    bird.paint(g);
+    actors.forEach(a -> a.paint(g));
   }
+
+  public Grid getGrid() { return grid; }
+  public Registry<Actor> getActors() { return actors; }
 }
